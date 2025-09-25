@@ -55,29 +55,43 @@ PORT=5000 python main.py          # Linux/Mac
 
 ### Local Docker Development
 
-```bash
-# Using Docker Compose (Recommended)
-docker-compose up -d
+#### Using Docker Compose (Recommended)
 
-# Or using Docker directly
-docker build -t cloud-run-deploy .
+```bash
+# Development Environment (default)
+docker-compose up -d --build
+
+# Staging Environment
+ENV=staging docker-compose up -d --build
+
+# Production Environment
+ENV=prod TAG=v1.0 docker-compose up -d --build
+
+# Custom port (any environment)
+HOST_PORT=5000 docker-compose up -d --build
+
+# Access the API:
+# http://localhost:8080 (default)
+# http://localhost:5000 (when using HOST_PORT=5000)
+```
+
+#### Using Docker Directly
+
+```bash
+# Build with specific tag
+docker build -t cloud-run-deploy:latest .
 
 # Run with default port 8080
-docker run -p 8080:8080 cloud-run-deploy
+docker run -p 8080:8080 cloud-run-deploy:latest
 
-# Run on a different host port (e.g., host:5000 -> container:8080)
-docker run -p 5000:8080 cloud-run-deploy
+# Run on a different host port
+docker run -p 5000:8080 cloud-run-deploy:latest
 
-# Run with environment variables and custom port
-docker run -e PORT=3000 -p 3000:3000 cloud-run-deploy
+# Run with environment variables
+docker run -e PORT=3000 -p 3000:3000 cloud-run-deploy:latest
 
-# Run in detached mode with custom port
-docker run -d -p 5000:8080 cloud-run-deploy
-
-# Access the API at:
-# http://localhost:8080 (default)
-# http://localhost:5000 (when using -p 5000:8080)
-# http://localhost:3000 (when using PORT=3000)
+# Run in detached mode
+docker run -d -p 5000:8080 cloud-run-deploy:latest
 ```
 
 ### Cloud Run Deployment
@@ -142,10 +156,42 @@ The project includes a `docker-compose.yml` that supports:
   - Greeting message
   - Container hostname
 
-## Environment Variables
+## Environment Configuration
 
-- `PORT`: The port the application listens on (default: 8080)
-- `PYTHONUNBUFFERED`: Ensures proper logging in containers
+The project supports multiple environments through environment-specific configuration files:
+
+### Environment Files
+- `.env.dev`: Development environment settings
+- `.env.staging`: Staging environment settings
+- `.env.prod`: Production environment settings
+
+### Environment Variables
+Common variables across all environments:
+- `HOST_PORT`: External port mapping (default: 8080)
+- `ENV`: Environment name (dev/staging/prod)
+- `TAG`: Docker image tag
+- `PYTHONUNBUFFERED`: Ensures proper logging
+- `DEBUG`: Enable/disable debug mode
+
+### Usage with Docker Compose
+```bash
+# Development
+docker-compose up -d --build
+
+# Staging
+ENV=staging docker-compose up -d --build
+
+# Production
+ENV=prod TAG=v1.0 docker-compose up -d --build
+
+# Custom port
+HOST_PORT=5000 docker-compose up -d --build
+```
+
+### Environment-Specific Deployments
+- Development: Uses `.env.dev` with debug mode enabled
+- Staging: Uses `.env.staging` for testing configurations
+- Production: Uses `.env.prod` with optimized settings
 
 ## Development and Testing
 

@@ -94,29 +94,48 @@ Using Docker Compose (Recommended):
 -----------------------------
 1. Overview:
    - docker-compose.yml is provided for orchestrating containers
-   - Includes pre-configured settings for scalability
+   - Environment-specific configurations (.env.dev, .env.staging, .env.prod)
    - Supports multiple services (web, database, cache, monitoring)
    - Defines resource limits and health checks
 
-2. Basic Docker Compose Commands:
-   - Start all services:
-     docker-compose up -d
-   
-   - View logs for all services:
+2. Environment-Based Deployment:
+   a) Development Environment:
+      docker-compose up -d --build
+
+   b) Staging Environment:
+      ENV=staging docker-compose up -d --build
+
+   c) Production Environment:
+      ENV=prod TAG=v1.0 docker-compose up -d --build
+
+   d) Custom Port (any environment):
+      HOST_PORT=5000 ENV=staging docker-compose up -d --build
+
+3. Basic Docker Compose Commands:
+   - View logs:
      docker-compose logs -f
      For specific service:
      docker-compose logs -f web
 
-   - Stop all services:
+   - Stop services:
      docker-compose down
      With volumes:
      docker-compose down -v
 
-   - Rebuild and start:
-     docker-compose up -d --build
-
-   - Check service status:
+   - Check status:
      docker-compose ps
+
+4. Environment Files:
+   - .env.dev: Development settings
+   - .env.staging: Staging settings
+   - .env.prod: Production settings
+
+   Each environment file contains:
+   - HOST_PORT: Container external port
+   - ENV: Environment name
+   - TAG: Docker image tag
+   - DEBUG: Debug mode setting
+   - Other environment-specific variables
 
 3. Development with Docker Compose:
    - Environment variables are configured in docker-compose.yml

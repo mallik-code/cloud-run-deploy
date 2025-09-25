@@ -15,15 +15,24 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: cloud-run-deploy
-    container_name: cloud-run-deploy
+      args:
+        # Build-time variables if needed
+        - BUILD_ENV=development
+      # Cache from previous builds for faster builds
+      cache_from:
+        - cloud-run-deploy:latest
+    image: cloud-run-deploy:${TAG:-latest}
+    container_name: cloud-run-deploy-${ENV:-dev}
     ports:
-      - "8080:8080"
+      - "${HOST_PORT:-8080}:8080"
     environment:
       - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=${ENV:-development}
       # Add other environment variables as needed
-      # - DATABASE_URL=postgresql://user:password@db:5432/dbname
-      # - REDIS_URL=redis://cache:6379/0
+      # - DATABASE_URL=${DATABASE_URL}
+      # - REDIS_URL=${REDIS_URL}
+    env_file:
+      - .env.${ENV:-dev}
     networks:
       - app-network
     healthcheck:
