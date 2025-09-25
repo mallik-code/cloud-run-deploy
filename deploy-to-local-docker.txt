@@ -6,8 +6,21 @@ Prerequisites:
    - Download from: https://www.docker.com/products/docker-desktop/
    - Verify installation: docker --version
    - Ensure Docker Desktop is running (check system tray icon)
+   - Check for port conflicts: Ensure port 8080 (default) is available, or use a different port
 
-2. Python Environment Setup (for local testing):
+2. Environment Configuration:
+   - Create .env.dev file for development settings
+   - Set HOST_PORT in .env.dev if port 8080 is unavailable
+   - Example .env.dev:
+     ```
+     HOST_PORT=8085
+     ENV=dev
+     TAG=latest
+     PYTHONUNBUFFERED=1
+     DEBUG=true
+     ```
+
+3. Python Environment Setup (for local testing):
    - Python 3.11 or later installed
    - Required packages: flask, gunicorn (listed in requirements.txt)
 
@@ -101,6 +114,9 @@ Using Docker Compose (Recommended):
 2. Environment-Based Deployment:
    a) Development Environment:
       docker-compose up -d --build
+
+      #Use the below one if the above given docker-compose up -d --build gives any port related issues
+      docker compose --env-file .env.dev up -d --build
 
    b) Staging Environment:
       ENV=staging docker-compose up -d --build

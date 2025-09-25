@@ -175,23 +175,62 @@ Common variables across all environments:
 
 ### Usage with Docker Compose
 ```bash
-# Development
+# Development (uses port from .env.dev)
 docker-compose up -d --build
 
-# Staging
-ENV=staging docker-compose up -d --build
+#Use the below one if the above given docker-compose up -d --build gives any port related issues
+# Development (uses port from .env.dev)
+docker compose --env-file .env.dev up -d --build
 
-# Production
-ENV=prod TAG=v1.0 docker-compose up -d --build
-
-# Custom port
+# Override port temporarily
 HOST_PORT=5000 docker-compose up -d --build
+
+# Force recreation of containers (when changing ports)
+docker-compose up -d --build --force-recreate
+
+# To stop the services
+docker-compose down
+
+# Clean up completely (including volumes)
+docker-compose down -v
 ```
+
+Note: The application will use the PORT specified in your environment file (.env.dev, .env.staging, or .env.prod). 
+If port 8080 is already in use by another service (like Airflow), you can:
+1. Set HOST_PORT in your .env file (e.g., HOST_PORT=8085)
+2. Use the --force-recreate flag when starting to ensure the new port is applied
 
 ### Environment-Specific Deployments
 - Development: Uses `.env.dev` with debug mode enabled
 - Staging: Uses `.env.staging` for testing configurations
 - Production: Uses `.env.prod` with optimized settings
+
+### Common Issues and Solutions
+
+#### Port Conflicts
+If you encounter an error like:
+```
+Error response from daemon: driver failed programming external connectivity on endpoint cloud-run-deploy-dev: Bind for 0.0.0.0:8080 failed: port is already allocated
+```
+
+This means port 8080 is already in use (common with services like Airflow). To resolve this:
+
+1. Create or modify your environment file (e.g., `.env.dev`):
+   ```bash
+   HOST_PORT=8085  # Or any other available port
+   ```
+
+2. Start Docker Compose with the environment file:
+   ```bash
+   docker compose --env-file .env.dev up -d --build
+   ```
+
+3. Access your application on the new port (e.g., http://localhost:8085)
+
+You can verify the port mapping using:
+```bash
+docker ps
+```
 
 ## Development and Testing
 
