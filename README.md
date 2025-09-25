@@ -8,9 +8,9 @@ A production-ready Flask application demonstrating deployment to Google Cloud Ru
 ├── src/                   # Source code directory
 │   └── main.py           # Main Flask application code
 ├── docs/                  # Documentation directory
-│   ├── deploy-to-cloud-run.txt    # Instructions for Cloud Run deployment
-│   ├── deploy-to-local-docker.txt # Instructions for local Docker deployment
-│   └── depl-help.txt            # Deployment help documentation
+│   ├── deploy-to-cloud-run.md    # Instructions for Cloud Run deployment
+│   ├── deploy-to-local-docker.md # Instructions for local Docker deployment
+│   └── depl-help.md            # Deployment help documentation
 ├── scripts/              # Utility scripts directory
 ├── Dockerfile            # Container configuration for the application
 ├── docker-compose.yml    # Multi-container orchestration configuration
