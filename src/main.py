@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import os
 import socket
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:4200", "https://localhost:4200"]}})
 
 @app.route('/')
 def home():
