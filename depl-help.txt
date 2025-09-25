@@ -12,4 +12,3 @@
 7. To delete virtual environment
 	rm -r .\venv\
 8.
-	

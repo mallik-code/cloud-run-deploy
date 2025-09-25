@@ -1,8 +1,69 @@
-------------------------Deploy to GCP Cloud Run---------------
-1. Make the code changes and ensure it is working locally
-2. Build the docker image locally
-	docker build -t cloud-run-deploy .
-3. Submit (Upload) the generated docker image to cloud run reposistory of cloud artifactory. 
-	gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy
-4. Now deploy/run the image/container with the name of a service using the below command.
-	gcloud run deploy cloud-run-deploy-python-service --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy --platform managed --region us-central1 --allow-unauthenticated
+------------------------Deploy to GCP Cloud Run------------------------
+
+Prerequisites:
+-------------
+1. Install and set up the following tools:
+   - Google Cloud SDK (gcloud CLI): https://cloud.google.com/sdk/docs/install
+   - Docker Desktop: https://www.docker.com/products/docker-desktop/
+   - Python 3.11 or later
+
+2. Configure Google Cloud:
+   - Run 'gcloud auth login' and follow authentication steps
+   - Run 'gcloud config set project YOUR_PROJECT_ID'
+   - Enable required APIs:
+     * Cloud Run API
+     * Cloud Build API
+     * Artifact Registry API
+
+3. Create an Artifact Registry repository (one-time setup):
+   - Run: gcloud artifacts repositories create cloud-run-deploy \
+         --repository-format=docker \
+         --location=us-central1 \
+         --description="Docker repository for Cloud Run deployments"
+
+Deployment Steps:
+----------------
+1. Make code changes and test locally:
+   - Install dependencies: pip install -r requirements.txt
+   - Run locally: python main.py
+   - Test at: http://localhost:8080
+   - The app should return a JSON response with a greeting and hostname
+
+2. Build the Docker image locally:
+   - Command: docker build -t cloud-run-deploy .
+   - Test the container:
+     * Run: docker run -p 8080:8080 cloud-run-deploy
+     * Test at: http://localhost:8080
+     * Stop with: Ctrl+C
+
+3. Submit (Upload) the Docker image to Artifact Registry:
+   - Replace $PROJECT_ID with your actual GCP Project ID
+   - Command: gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy
+
+4. Deploy to Cloud Run:
+   - Command: gcloud run deploy cloud-run-deploy-python-service \
+             --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+             --platform managed \
+             --region us-central1 \
+             --allow-unauthenticated
+
+   Parameters explained:
+   - cloud-run-deploy-python-service: Name of your Cloud Run service
+   - --platform managed: Uses fully managed Cloud Run service
+   - --region us-central1: Deploys in the US Central region
+   - --allow-unauthenticated: Makes the service publicly accessible
+
+5. After Deployment:
+   - The command will output the service URL
+   - Test your deployed service by visiting the URL
+   - Monitor the service in Google Cloud Console under Cloud Run
+
+Notes:
+------
+- The application uses Flask and Gunicorn for production deployment
+- The container runs on port 8080 as required by Cloud Run
+- Environment variables:
+  * PORT: Set automatically by Cloud Run
+  * PYTHONUNBUFFERED=1: Ensures proper logging
+- The service is stateless and scalable
+- Authentication can be added by removing --allow-unauthenticated flag
