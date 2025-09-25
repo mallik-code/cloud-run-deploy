@@ -1,0 +1,57 @@
+# Angular specific files
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Angular Cache
+.angular/cache
+.angular/
+
+# Environment Files
+/src/environments/*.js
+/src/environments/*.js.map
+
+# Compiled output
+*.js.map
+*.css.map
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# Unit tests
+*.spec.ts.js
+*.spec.ts.map
