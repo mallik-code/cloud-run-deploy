@@ -281,25 +281,66 @@ gcloud run services describe cloud-run-deploy-prod-service \
 #### Managing Revisions
 Each deployment creates a new revision while maintaining the same service URL. To manage revisions:
 
-```bash
+PowerShell Commands:
+```powershell
 # List all revisions
-gcloud run revisions list --platform managed --region us-central1 --service cloud-run-deploy-prod-service
+gcloud run revisions list `
+    --platform managed `
+    --region us-central1 `
+    --service cloud-run-deploy-prod-service
 
 # View traffic allocation
-gcloud run services describe cloud-run-deploy-prod-service --platform managed --region us-central1 --format='yaml(status.traffic)'
+gcloud run services describe cloud-run-deploy-prod-service `
+    --platform managed `
+    --region us-central1 `
+    --format="yaml(status.traffic)"
 
 # Split traffic between revisions (for A/B testing or gradual rollout)
-gcloud run services update-traffic cloud-run-deploy-prod-service \
-    --platform managed \
-    --region us-central1 \
-    --to-revisions=REVISION1=50,REVISION2=50
+gcloud run services update-traffic cloud-run-deploy-prod-service `
+    --platform managed `
+    --region us-central1 `
+    --to-revisions "REVISION1=50,REVISION2=50"
 
-# Rollback to a previous revision
+# Example of actual revision names:
+gcloud run services update-traffic cloud-run-deploy-prod-service `
+    --platform managed `
+    --region us-central1 `
+    --to-revisions "cloud-run-deploy-prod-service-00001-5tj=50,cloud-run-deploy-prod-service-00002-tbp=50"
+
+# Rollback to a specific revision (route all traffic)
+gcloud run services update-traffic cloud-run-deploy-prod-service `
+    --platform managed `
+    --region us-central1 `
+    --to-revision "REVISION_NAME"
+```
+
+Bash/Linux Commands:
+```bash
+# List all revisions
+gcloud run revisions list \
+    --platform managed \
+    --region us-central1 \
+    --service cloud-run-deploy-prod-service
+
+# View traffic allocation
+gcloud run services describe cloud-run-deploy-prod-service \
+    --platform managed \
+    --region us-central1 \
+    --format='yaml(status.traffic)'
+
+# Split traffic between revisions
 gcloud run services update-traffic cloud-run-deploy-prod-service \
     --platform managed \
     --region us-central1 \
-    --to-revision=REVISION_NAME
+    --to-revisions REVISION1=50,REVISION2=50
 ```
+
+Important Notes:
+- Use backticks (\`) for line continuation in PowerShell
+- Use quotes around revision specifications in PowerShell
+- Revision names follow the pattern: `service-name-00001-xxx`
+- Traffic percentages must add up to 100
+- You can verify traffic split using the describe command
 
 By default:
 - The service URL remains constant

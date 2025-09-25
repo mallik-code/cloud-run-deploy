@@ -11,7 +11,8 @@ def home():
         # Success response - default status code 200
         return jsonify({
             "message": f"Welcome to Cloud Run Deployment App!!!",
-            "host": hostname
+            "host": hostname,
+            "version": "v2"  # Added version number
         })
     except Exception as e:
         return jsonify(
