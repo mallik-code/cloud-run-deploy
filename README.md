@@ -5,12 +5,16 @@ A production-ready Flask application demonstrating deployment to Google Cloud Ru
 ## Project Structure
 
 ```
-├── Dockerfile              # Container configuration for the application
-├── docker-compose.yml     # Multi-container orchestration configuration
-├── main.py               # Main Flask application code
-├── requirements.txt      # Python dependencies
-├── deploy-to-cloud-run.txt    # Instructions for Cloud Run deployment
-└── deploy-to-local-docker.txt # Instructions for local Docker deployment
+├── src/                   # Source code directory
+│   └── main.py           # Main Flask application code
+├── docs/                  # Documentation directory
+│   ├── deploy-to-cloud-run.txt    # Instructions for Cloud Run deployment
+│   ├── deploy-to-local-docker.txt # Instructions for local Docker deployment
+│   └── depl-help.txt            # Deployment help documentation
+├── scripts/              # Utility scripts directory
+├── Dockerfile            # Container configuration for the application
+├── docker-compose.yml    # Multi-container orchestration configuration
+└── requirements.txt      # Python dependencies
 ```
 
 ## Features
@@ -40,14 +44,14 @@ A production-ready Flask application demonstrating deployment to Google Cloud Ru
 pip install -r requirements.txt
 
 # Run the application (default port 8080)
-python main.py
+python src/main.py
 
 # Run on a different port (e.g., port 5000)
-$env:PORT=5000; python main.py    # PowerShell
+$env:PORT=5000; python src/main.py    # PowerShell
 # OR
-set PORT=5000 && python main.py   # Windows Command Prompt
+set PORT=5000 && python src/main.py   # Windows Command Prompt
 # OR
-PORT=5000 python main.py          # Linux/Mac
+PORT=5000 python src/main.py          # Linux/Mac
 
 # Access the API at http://localhost:8080 (default)
 # Or http://localhost:5000 (if using custom port)

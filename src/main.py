@@ -10,7 +10,7 @@ def home():
         hostname = socket.gethostname()
         # Success response - default status code 200
         return jsonify({
-            "message": f"Hello from Cloud Run!!!",
+            "message": f"Welcome to Cloud Run Deployment App!!!",
             "host": hostname
         })
     except Exception as e:

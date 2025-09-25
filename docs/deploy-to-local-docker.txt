@@ -23,6 +23,7 @@ Prerequisites:
 3. Python Environment Setup (for local testing):
    - Python 3.11 or later installed
    - Required packages: flask, gunicorn (listed in requirements.txt)
+   - Source code is located in the src/ directory
 
 Local Docker Deployment Steps:
 ----------------------------

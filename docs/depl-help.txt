@@ -1,0 +1,36 @@
+Project Structure Overview:
+----------------------
+The project follows a standard Python project structure:
+- src/: Contains all source code (main.py)
+- docs/: Contains all documentation files
+- scripts/: For utility scripts and tools
+- Root directory: Contains configuration files (Dockerfile, docker-compose.yml, requirements.txt)
+
+Setup Steps:
+-----------
+1. Create a repository in github with the name cloud-run-deploy
+   - Added Readme and also enabled .gitignore to python
+
+2. Clone repository:
+   git clone https://github.com/mallik-code/cloud-run-deploy.git
+
+3. Create .python-version file in root directory:
+   echo "3.12" > .python-version
+
+4. Create Python virtual environment:
+   python -m venv .venv
+
+5. Activate virtual environment:
+   .\.venv\Scripts\activate   # Windows
+   source .venv/bin/activate  # Linux/Mac
+
+6. Install dependencies:
+   pip install -r requirements.txt
+
+7. Run the application:
+   python src/main.py
+
+Virtual Environment Management:
+----------------------------
+- Deactivate: deactivate
+- Delete venv: rm -r .venv/

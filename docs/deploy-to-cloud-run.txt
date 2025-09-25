@@ -25,7 +25,7 @@ Deployment Steps:
 ----------------
 1. Make code changes and test locally:
    - Install dependencies: pip install -r requirements.txt
-   - Run locally: python main.py
+   - Run locally: python src/main.py
    - Test at: http://localhost:8080
    - The app should return a JSON response with a greeting and hostname
 
