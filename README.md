@@ -86,12 +86,36 @@ docker run -d -p 5000:8080 cloud-run-deploy
 # Build and submit to Google Cloud
 gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy
 
-# Deploy to Cloud Run
+# Deploy to Cloud Run (default port 8080)
 gcloud run deploy cloud-run-deploy-python-service \
     --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
     --platform managed \
     --region us-central1 \
     --allow-unauthenticated
+
+# Deploy with custom port (e.g., port 3000)
+gcloud run deploy cloud-run-deploy-python-service \
+    --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated \
+    --port 3000
+
+# Deploy with environment variables and custom port
+gcloud run deploy cloud-run-deploy-python-service \
+    --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated \
+    --port 5000 \
+    --set-env-vars "PORT=5000,PYTHONUNBUFFERED=1"
+
+# List your Cloud Run services and get the URL
+gcloud run services list
+
+# Note: Cloud Run automatically handles port mapping to HTTPS (443)
+# Your service will be available at: https://cloud-run-deploy-python-service-xxxxx.run.app
+# regardless of the internal container port
 ```
 
 ## Detailed Documentation

@@ -41,17 +41,40 @@ Deployment Steps:
    - Command: gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy
 
 4. Deploy to Cloud Run:
-   - Command: gcloud run deploy cloud-run-deploy-python-service \
-             --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
-             --platform managed \
-             --region us-central1 \
-             --allow-unauthenticated
+
+   a) Default deployment (port 8080):
+      gcloud run deploy cloud-run-deploy-python-service \
+          --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated
+
+   b) Deploy with custom port:
+      gcloud run deploy cloud-run-deploy-python-service \
+          --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --port 3000
+
+   c) Deploy with custom port and environment variables:
+      gcloud run deploy cloud-run-deploy-python-service \
+          --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --port 5000 \
+          --set-env-vars "PORT=5000,PYTHONUNBUFFERED=1"
 
    Parameters explained:
    - cloud-run-deploy-python-service: Name of your Cloud Run service
    - --platform managed: Uses fully managed Cloud Run service
    - --region us-central1: Deploys in the US Central region
    - --allow-unauthenticated: Makes the service publicly accessible
+   - --port: Sets the container's internal port (default: 8080)
+   - --set-env-vars: Sets environment variables for the container
+
+   Note: Cloud Run automatically handles external HTTPS (port 443) regardless of internal port
 
 5. After Deployment:
    - The command will output the service URL
