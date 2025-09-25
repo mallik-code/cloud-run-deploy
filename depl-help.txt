@@ -1,0 +1,15 @@
+1. Create a repository in github with the name cloud-run-deploy
+	added Readme and also enabled .gitignore to python
+2. Cloned in my laptop
+	git clone https://github.com/mallik-code/cloud-run-deploy.git
+3. create .python-version file and mention python version 
+	3.12
+4. Create pyhton virtual environment using python -m venv .venv so that the project specific versions are mainatained within this project folder i.e. under .venv folder
+	>python -m venv .venv
+5. Now activate the python virtual environment with the below command. This gives (.venv) before the prompt
+	>.\.venv\Scripts\activate
+6. To deactivate virtual environment just type deactivate on the console in the project root directory.
+7. To delete virtual environment
+	rm -r .\venv\
+8.
+	
