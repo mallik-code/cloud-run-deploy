@@ -1,10 +1,26 @@
-from flask import Flask
+from flask import Flask, jsonify
+import os
+import socket
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Hello from Cloud Run!!!"
+    try:
+        hostname = socket.gethostname()
+        # Success response - default status code 200
+        return jsonify({
+            "message": f"Hello from Cloud Run!!!",
+            "host": hostname
+        })
+    except Exception as e:
+        return jsonify(
+            {
+                "error": str(e),
+                "status": "Internal Server Error" 
+            }),500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8085)
+    # Get port from environment variable (Cloud Run sets PORT=8080)
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)

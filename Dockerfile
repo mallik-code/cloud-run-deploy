@@ -13,11 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY . .
 
-# Expose the port
-EXPOSE 8085
-
 # Set environment variable for Python logging
 ENV PYTHONUNBUFFERED=1
 
-# Run using Gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:8085", "--log-level", "info", "main:app"]
+# Run using Gunicorn (note the port is now 8080)
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--log-level", "info", "main:app"]

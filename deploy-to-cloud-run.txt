@@ -1,0 +1,8 @@
+------------------------Deploy to GCP Cloud Run---------------
+1. Make the code changes and ensure it is working locally
+2. Build the docker image locally
+	docker build -t cloud-run-deploy .
+3. Submit (Upload) the generated docker image to cloud run reposistory of cloud artifactory. 
+	gcloud builds submit --tag us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy
+4. Now deploy/run the image/container with the name of a service using the below command.
+	gcloud run deploy cloud-run-deploy-python-service --image us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-deploy/cloud-run-deploy --platform managed --region us-central1 --allow-unauthenticated
